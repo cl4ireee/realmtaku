@@ -1,0 +1,204 @@
+<%- include('partials/header', { title: 'RealmTaku | Website baca Komik dan nonton Anime, Donghua' ,
+  description: "Website nonton anime, donghua dan baca komik bahasa indonesia" , thumb: "https://telegra.ph/file/f4d11b8ee92d78c974978.png" , slug: "/" }) %>
+  <div id="animeSlider" class="carousel slide mt-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <% randoms.forEach((randomanime, index)=> { %>
+        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+          <div class="slide-content">
+            <img src="<%= randomanime.poster %>" class="d-block w-100" alt="<%= randomanime.judul %>">
+            <div class="carousel-caption d-md-block">
+              <h5>
+                <%= randomanime.judul %>
+              </h5>
+              <p>
+                <%= randomanime.type==='Anime' ? 'Type: Anime | Episode ' + randomanime.episodeTerbaru :
+                  (randomanime.type==='Comic' ? 'Type: Comic | Chapter ' + randomanime.episodeTerbaru
+                  : 'Type: Donghua | Episode ' + randomanime.episodeTerbaru) %>
+              </p>
+              <a href="<%= randomanime.type === 'Anime' ? '/anime/' + randomanime.slug 
+                : (randomanime.type === 'Comic' ? '/comic/' + randomanime.slug 
+                : '/donghua/' + randomanime.slug_anime) %>" class="btn btn-primary">Detail</a>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#animeSlider" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#animeSlider" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <section class="py-5 features">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12 col-lg-12">
+          <div class="d-flex flex-column flex-sm-row justify-content-between">
+            <div class="d-flex justify-content-between w-100">
+              <h4 class="theme-text-white font-black section-title">Comic Updates</h4>
+              <a href="/list-comic" class="font-small ml-auto align-self-center">View All <i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <% if (comicData.length > 0) { %>
+          <% comicData.forEach((comic, index)=> { %>
+          <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
+            <div class="card">
+              <a href="/comic/<%= comic.slug %>/" class="card-img-container">
+                <img
+                  src="<%= comic.poster %>?w=1280&q=80"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div
+                  class="<%= comic.type === 'Unknown' ? 'manhua' : comic.type.toLowerCase() %>"
+                >
+                  <%= comic.type==='Unknown' ? 'Manhua' : comic.type %>
+                </div>
+              </a>
+              <div class="card-padding-top">
+                <a href="/comic/<%= comic.slug %>/" class="card-title">
+                  <h5><%= comic.judul %></h5>
+                </a>
+                <% if (comic.chapters && comic.chapters.length> 0) { %>
+                <a
+                  href="/comic/chapter/<%= comic.chapters[0].slug %>/"
+                  class="card-chapter"
+                >
+                  <span> <%= comic.chapters[0].chapter_title %> </span>
+                  <span> <%= comic.chapters[0].release_date %> </span>
+                </a>
+                <% } %> <% if (comic.chapters && comic.chapters.length> 1) { %>
+                <a
+                  href="/comic/chapter/<%= comic.chapters[1].slug %>/"
+                  class="card-chapter"
+                >
+                  <span> <%= comic.chapters[1].chapter_title %> </span>
+                  <span> <%= comic.chapters[1].release_date %> </span>
+                </a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        <% } else { %>
+          <div class="col-12">
+            <p class="text-center">Tidak ada komik yang tersedia, mohon maaf terkadang sering terjadi ganguan untuk komik tetapi dapat di atasi dengan cara refresh halaman, jika masih tidak ada silakan check list comic.</p>
+          </div>
+        <% } %>
+      </div>      
+    </div>
+  </section>
+  <div id="popup">
+    <button id="popup-close-btn" class="close-btn">X</button>
+
+    <img src="https://i.ibb.co.com/k6xpnC6/ABTPa1725941463.webp" alt="Popup Image">
+
+    <div class="message">Selamat Datang!</div>
+    <div class="message">Kami selalu berusaha meningkatkan layanan untuk pengalaman terbaik Anda. Dukungan Anda sangat berarti untuk menjaga situs ini tetap lancar. Terima kasih!</div>
+  </div>
+  
+  <%- include('partials/footer') %>
+
+  <style>
+  #popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+    width: 350px;
+    max-width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  #popup.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  #popup img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  #popup .message {
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  
+  #popup .close-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #ff5555;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  #popup .close-btn:hover {
+    background-color: #ff3333;
+  }
+  </style>
+<script>
+  function setPopupCookie(name, value, minutes) {
+    const expires = new Date(Date.now() + minutes * 60 * 1000).toUTCString();
+    document.cookie = name + "=" + value + "; expires=" + expires + "; path=/";
+  }
+  
+  function getPopupCookie(name) {
+    const nameEQ = name + "=";
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.indexOf(nameEQ) === 0) return cookie.substring(nameEQ.length, cookie.length);
+    }
+    return null;
+  }
+  
+  function showPopup() {
+    const popup = document.getElementById('popup');
+    const closeBtn = document.getElementById('popup-close-btn');
+  
+    if (!getPopupCookie('popupClosed')) {
+      popup.classList.add('show');
+    }
+  
+    closeBtn.addEventListener('click', () => {
+      popup.classList.remove('show');
+      setPopupCookie('popupClosed', 'true', 60);
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', showPopup);
+  </script>
+  

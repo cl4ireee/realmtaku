@@ -1,0 +1,129 @@
+<%- include('partials/header', { title: genre ? `Genres ${genre} | RealmTaku` : 'Genres | RealmTaku', description: "Genres RealmTaku", thumb: "https://telegra.ph/file/f4d11b8ee92d78c974978.png", slug: '/genres' }) %>
+<div class="breadcrumb-link">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="links">
+            <a href="/"><i class="bi bi-house-fill"></i> Home</a>
+            <span>
+              genres
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div class="mb-3">
+                    <h1 class="display-5 mb-3 theme-text-white font-black section-title">Genres</h1>
+                </div>
+                <ul class="tags-blog">
+                    <% if (combinedGenres.length > 0) { %>
+                        <% combinedGenres.forEach(genre => { %>
+                            <% if (genre.slug && genre.judul) { %>
+                                <li><a href="?slug=<%= genre.slug %>"><%= genre.judul %></a></li>
+                            <% } %>
+                        <% }); %>
+                    <% } else { %>
+                        <p>No genres found</p>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <% if (genre) { %>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h1 class="display-5 mb-3 theme-text-white font-black section-title">Items in <%= genre %> Genre</h1>
+                    <div class="row">
+                        <% if (comicList.length > 0) { %>
+                            <% comicList.forEach(comic => { %>
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
+                                    <div class="card">
+                                      <a href="/comic/<%= comic.slug %>" class="card-img-container">
+                                        <img
+                                          src="<%= comic.poster %>?w=1280&q=80"
+                                          class="card-img-top"
+                                          alt="..."
+                                        />
+                                        <div
+                                          class="<%= comic.type === 'Unknown' ? 'manhua' : comic.type.toLowerCase() %>"
+                                        >
+                                          <%= comic.type==='Unknown' ? 'Manhua' : comic.type %>
+                                        </div>
+                                      </a>
+                                      <div class="card-padding-top">
+                                        <a href="/comic/<%= comic.slug %>" class="card-title">
+                                          <h5><%= comic.judul %></h5>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p>No comics found for this genre</p>
+                        <% } %>
+                    </div>
+                    <div class="pagination">
+                        <% if (currentPage > 1) { %>
+                            <a href="?slug=<%= genre %>&page=<%= currentPage - 1 %>">BACK</a>
+                        <% } %>
+                        
+                        <% if (currentPage > 1) { %>
+                            <a href="?slug=<%= genre %>&page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+                        <% } %>
+                        
+                        <a href="?slug=<%= genre %>&page=<%= currentPage %>" class="active"><%= currentPage %></a>
+                        
+                        <% if (pagination.nextPage) { %>
+                            <a href="?slug=<%= genre %>&page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+                        <% } %>
+                        
+                        <% if (pagination.nextPage) { %>
+                            <a href="?slug=<%= genre %>&page=<%= currentPage + 1 %>">NEXT</a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</section>
+<%- include('partials/footer') %>
+<style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    .pagination a {
+      color: #ffffff;
+      background-color: #333;
+      padding: 10px 15px;
+      margin: 0 5px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .pagination a:hover {
+      background-color: #555;
+    }
+    
+    .pagination a.active {
+      background-color: #007bff;
+      pointer-events: none;
+    }
+    
+    @media (max-width: 600px) {
+      .pagination a {
+        padding: 8px 12px;
+        margin: 0 3px;
+      }
+    }
+    </style>
+    

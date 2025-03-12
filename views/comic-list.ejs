@@ -1,0 +1,103 @@
+<%- include('partials/header', { title: 'List Comic | RealmTaku' , description: "Berikut adalah list comic yang tersedia di realmtaku", thumb: "https://telegra.ph/file/f4d11b8ee92d78c974978.png", slug: '/list-comic' }) %>
+<div class="breadcrumb-link">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="links">
+                    <a href="/"><i class="bi bi-house-fill"></i> Home</a>
+                    <a href="/list-comic">Comic</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mt-5">
+        <div class="mb-3">
+          <h1 class="display-5 mb-3 theme-text-white font-black section-title">
+            Comic List
+          </h1>
+        </div>
+        <div class="row">
+          <% if (comics.length > 0) { %> <% comics.forEach(comic => { %>
+          <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+            <div class="product-card grow-box">
+              <a href="/comic/<%= comic.slug %>">
+              <div class="img-con set-bg" data-setbg="<%= comic.poster %>?w=1280&q=80">
+                <div class="ep"><%= comic.chapter %></div>
+                <div class="view">
+                  <i class="bi bi-star"></i> <%= comic.rating %>
+                </div>
+              </div></a>
+              <div class="product-card-con">
+                <h5>
+                  <a href="/comic/<%= comic.slug %>"><%= comic.judul %></a>
+                </h5>
+              </div>
+            </div>
+          </div>
+          <% }); %> <% } else { %>
+          <p>No comics found</p>
+          <% } %>
+        </div>
+        <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="/list-comic?page=<%= currentPage - 1 %>">BACK</a>
+          <% } %>
+
+          <% if (currentPage > 1) { %>
+            <a href="/list-comic?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+          <% } %>
+
+          <a href="/list-comic?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+
+          <% if (currentPage < maxPages) { %>
+            <% if (currentPage < maxPages - 1) { %>
+              <a href="/list-comic?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+            <% } %>
+            <a href="/list-comic?page=<%= currentPage + 1 %>">NEXT</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>
+
+<style>
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.pagination a {
+  color: #ffffff;
+  background-color: #333;
+  padding: 10px 15px;
+  margin: 0 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #555;
+}
+
+.pagination a.active {
+  background-color: #007bff;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .pagination a {
+    padding: 8px 12px;
+    margin: 0 3px;
+  }
+}
+</style>

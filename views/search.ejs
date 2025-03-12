@@ -1,0 +1,49 @@
+<%- include('partials/header', { title: 'Search Results for "' + query + '" | RealmTaku', description: "Search RealmTaku", thumb: "https://telegra.ph/file/f4d11b8ee92d78c974978.png", slug: `/` }) %>
+<div class="breadcrumb-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="links">
+          <a href="/"><i class="bi bi-house-fill"></i> Home</a>
+          <span>Search</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-sm-6 col-lg-8">
+            <h1 class="fs-5 mb-3 theme-text-white font-black section-title">Search Results for "<%= query %>"</h1>
+          </div>
+        </div>
+        <div class="row">
+          <% if (searchResults.length > 0) { %>
+            <% searchResults.forEach(item => { %>
+              <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+                <div class="product-card grow-box">
+                  <a href="<%= item.type === 'anime' ? '/anime/' + item.slug : item.type === 'comic' ? '/comic/' + item.slug : '/donghua/' + item.slug %>">
+                    <div class="img-con set-bg" data-setbg="<%= item.poster %>">
+                      <div class="ep"><%= item.status %></div>
+                      <div class="tp"><%= item.item_type %></div>
+                      <div class="view"><i class="bi bi-star"></i> <%= item.rating || '' %></div>
+                    </div>
+                  </a>
+                  <div class="product-card-con">
+                    <h5><a href="<%= item.type === 'anime' ? '/anime/' + item.slug : item.type === 'comic' ? '/comic/' + item.slug : '/donghua/' + item.slug %>"><%= item.judul %></a></h5>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>DATA TIDAK DITEMUKAN</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

@@ -1,0 +1,164 @@
+<%- include('partials/header', { title: comicChapter.judul + ' | RealmTaku', description: 'Baca komik sub indonesia ' + comicChapter.judul, thumb: "https://telegra.ph/file/0a76f873e5a0d30144664.png", slug: '/comic/chapter/' + comicChapter.ep_slug}) %>
+<div class="breadcrumb-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="links">
+          <a href="/"><i class="bi bi-house-fill"></i> Home</a>
+          <a href="/list-comic">Comic</a>
+          <a href="/comic/<%= comicChapter.comic && comicChapter.comic.slug ? comicChapter.comic.slug : 'default-slug' %>">
+            <%= comicChapter.comic && comicChapter.comic.slug ? comicChapter.comic.slug : 'Default Comic' %>
+          </a>          
+          <a href="#">Chapter</a>
+          <span><%= comicChapter.judul %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="text-center mb-4"><%= comicChapter.judul %></h1>
+        <div class="d-flex justify-content-between mb-4">
+          <% if (comicChapter.previousChapter) { %>
+            <a href="/comic/chapter/<%= comicChapter.previousChapter.slug %>" class="btn btn-primary btn-back">Back</a>
+          <% } %>
+          <% if (comicChapter.nextChapter) { %>
+            <a href="/comic/chapter/<%= comicChapter.nextChapter.slug %>" class="btn btn-primary btn-next">Next</a>
+          <% } %>
+        </div>
+        <div class="chapter-images">
+          <% if (comicChapter.imageUrls && Array.isArray(comicChapter.imageUrls) && comicChapter.imageUrls.length > 0) { %>
+            <a href="https://saweria.co/ClayzaAubert" target="_blank">
+              <img src="https://telegra.ph/file/0a76f873e5a0d30144664.png" alt="Special Start Image" class="img-fluid">
+            </a>
+            
+            <% comicChapter.imageUrls.forEach((imageUrl, index) => { %>
+              <img src="<%= imageUrl %>" alt="<%= comicChapter.judul %>" class="img-fluid">
+            <% }) %>
+            
+            <a href="https://saweria.co/ClayzaAubert" target="_blank">
+              <img src="https://telegra.ph/file/0a76f873e5a0d30144664.png" alt="Special End Image" class="img-fluid">
+            </a>
+          <% } %>
+        </div>        
+        
+        <div class="d-flex justify-content-between mt-4">
+          <% if (comicChapter.previousChapter) { %>
+            <a href="/comic/chapter/<%= comicChapter.previousChapter.slug %>" class="btn btn-primary">Back</a>
+          <% } %>
+          <% if (comicChapter.nextChapter) { %>
+            <a href="/comic/chapter/<%= comicChapter.nextChapter.slug %>" class="btn btn-primary">Next</a>
+          <% } %>
+        </div>
+        <div class="chapter-list mt-5">
+          <h5 class="fs-5 mb-3 theme-text-white font-black section-title">Chapters</h5>
+          <select class="form-select" onchange="location = this.value;">
+            <option value="" disabled selected>Select a Chapter</option>
+            <% comicChapter.chapters.forEach(chapter => { %>
+              <option value="/comic/chapter/<%= chapter.slug %>"><%= chapter.title %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="mt-5">
+          <h5 class="fs-5 mb-3 theme-text-white font-black section-title">Tags</h5>
+          <div><p><%= comicChapter.tags %></p></div>
+        </div>
+        <div class="mt-5">
+          <h5 class="fs-5 mb-3 theme-text-white font-black section-title">Comments</h5>
+          <div id="disqus_thread"></div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+<a href="#" class="scroll-down-btn">
+  <i class="bi bi-chevron-double-down"></i>
+</a>
+
+</section>
+<%- include('partials/footer') %>
+<style>
+.scroll-down-btn {
+  position: fixed;
+  bottom: 70px; /* Menempatkan tombol di 20px dari bawah, sesuai dengan scroll up */
+  right: 10px; /* Menempatkan tombol di 10px dari kanan */
+  height: 3rem;
+  width: 3rem;
+  background-color: #FF5733; /* Sama dengan background scroll up */
+  color: #fff; /* Warna ikon */
+  line-height: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 1; /* Memastikan tombol berada di atas elemen lain */
+  transition: all 0.5s cubic-bezier(0, 0, 0.15, 1.88);
+}
+
+.scroll-down-btn i {
+  font-size: 1.5rem;
+  display: inline-block;
+  transition: all 0.5s ease-in;
+}
+.scroll-down-btn i:hover, .scroll-down-btn i:focus {
+  animation: toBottomFromDown 0.5s forwards;
+}
+.scroll-down-btn:hover, .scroll-down-btn:focus {
+  color: #ffffff;
+}
+
+.scroll-down-btn.back-top {
+  bottom: 20px;
+}
+@keyframes toBottomFromDown {
+  80% {
+    opacity: 1;
+  }
+  51% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  49% {
+    transform: translateY(20%);
+  }
+}
+</style>
+<script>
+let scrollInterval; // Variabel untuk menyimpan ID interval
+
+const scrollDown = () => {
+  let scrollAmount = 0;
+  const scrollStep = 4; // Jumlah piksel untuk menggulir per langkah
+  const scrollIntervalTime = 20; // Interval waktu antara langkah dalam milidetik
+
+  scrollInterval = setInterval(() => {
+    window.scrollBy(0, scrollStep);
+    scrollAmount += scrollStep;
+
+    // Jika sudah mencapai bagian bawah halaman, hentikan scroll
+    if (scrollAmount >= document.body.scrollHeight - window.innerHeight) {
+      clearInterval(scrollInterval);
+    }
+  }, scrollIntervalTime);
+};
+
+document.querySelector('.scroll-down-btn').addEventListener('click', function(event) {
+  event.preventDefault();
+  scrollDown();
+});
+
+// Hentikan scroll saat layar disentuh
+document.addEventListener('touchstart', () => {
+  clearInterval(scrollInterval);
+});
+
+// Hentikan scroll saat mouse diklik di mana saja di halaman
+document.addEventListener('mousedown', () => {
+  clearInterval(scrollInterval);
+});
+</script>

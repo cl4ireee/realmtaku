@@ -1,0 +1,74 @@
+<%- include('partials/header', { title: 'Bookmarks | RealmTaku' , description: 'Bookmarks Your Anime, Donghua, Comic' ,
+  thumb: "https://telegra.ph/file/f4d11b8ee92d78c974978.png" , slug: '/bookmarks' }) %>
+  <div class="breadcrumb-link">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="links">
+            <a href="/"><i class="bi bi-house-fill"></i> Home</a>
+            <span>Bookmarks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-12 col-lg-12">
+              <div class="row">
+                <div class="col-sm-6 col-lg-8">
+                  <h1 class="fs-5 mb-3 theme-text-white font-black section-title">
+                    Bookmark
+                  </h1>
+                  <button id="clear-bookmarks" class="btn btn-danger">
+                    Clear All Bookmarks
+                  </button><br><br>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5" id="bookmark-list">
+            <% if (bookmarks.length===0) { %>
+              <p>No bookmarks found.</p>
+              <% } else { %>
+                <% bookmarks.forEach(bookmark=> { %>
+                  <div class="col-lg-2 col-md-3 col-sm-6 col-6">
+                    <div class="product-card grow-box">
+                      <a
+                        href="<%= bookmark.type === 'Anime' ? '/anime/' + bookmark.slug : '/donghua/' + bookmark.slug %>">
+                        <div class="img-con set-bg" data-setbg="<%= bookmark.poster %>?w=1280&q=80">
+                          <div class="pc-anime">
+                            <%= bookmark.type %>
+                          </div>
+                        </div>
+                      </a>
+                      <div class="product-card-con">
+                        <h5>
+                          <a href="<%= bookmark.type === 'Anime' ? '/anime/' + bookmark.slug 
+                          : '/donghua/' + bookmark.slug %>">
+                            <%= bookmark.title %>
+                          </a>
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <% }) %>
+                    <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+    <script>
+      document.getElementById("clear-bookmarks").addEventListener("click", () => {
+        document.cookie =
+          "bookmarks=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.reload();
+      });
+    </script>

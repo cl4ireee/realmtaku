@@ -1,0 +1,249 @@
+<%- include('partials/header', { title: comicDetail.judul + ' | RealmTaku', description: comicDetail.synopsis, thumb: comicDetail.poster, slug: '/comic/' + comicDetail.slug }) %>
+<!-- breadcrumb link -->
+<div class="breadcrumb-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="links">
+          <a href="/"><i class="bi bi-house-fill"></i> Home</a>
+          <a href="/list-comic">Comic</a>
+          <span> <%= comicDetail.judul %> </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="py-5">
+  <div class="container">
+    <div class="anime-details">
+      <div class="row">
+        <div class="col-lg-3 mb-5 mb-lg-0">
+          <div class="anime-details-pic set-bg" data-setbg="<%= comicDetail.poster %>?w=1280&q=80">
+            <button id="bookmark-btn" class="bookmark-btn">
+              <i class="bi bi-bookmark"></i>
+            </button>
+            <div class="comment">
+              <i class="bi bi-star"></i>
+              <%= comicDetail.rating %>
+            </div>
+            <div class="view">
+              <i class="bi bi-eye"></i>
+              <%= comicDetail.release %>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="anime-details-text">
+            <div class="d-flex justify-content-between flex-column flex-lg-row">
+              <div class="anime-details-title">
+                <h3><%= comicDetail.judul %></h3>
+                <span> <%= comicDetail.others_judul %> </span>
+              </div>
+            </div>
+            <p><%= comicDetail.synopsis %></p>
+              <div class="anime-details-widget">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <ul>
+                      <li>
+                        <span>Type:</span>
+                        <%= comicDetail.type %>
+                      </li>
+                      <li>
+                        <span>Author:</span>
+                        <%= comicDetail.author %>
+                      </li>
+                      <li>
+                        <span>Date aired:</span>
+                        <%= comicDetail.release %>
+                      </li>
+                      <li>
+                        <span>Status:</span>
+                        <%= comicDetail.status %>
+                      </li>
+                      <li>
+                        <span>Genre:</span>
+                        <%= comicDetail.genre %>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <ul>
+                      <% function formatDate(dateString) { const date = new
+                      Date(dateString); const optionsDate = { year: 'numeric',
+                      month: 'long', day: 'numeric' }; const optionsTime = { hour:
+                      '2-digit', minute: '2-digit', hour12: true }; const
+                      formattedDate = date.toLocaleDateString('en-US',
+                      optionsDate); const formattedTime =
+                      date.toLocaleTimeString('en-US', optionsTime); return
+                      `${formattedDate} at ${formattedTime}`; } %>
+                      <li>
+                        <span>updateOn:</span>
+                        <%= formatDate(comicDetail.updateOn) %>
+                      </li>
+                      <li>
+                        <span>Rating:</span>
+                        <%= comicDetail.rating %>
+                      </li>
+                      <li>
+                        <span>Release:</span>
+                        <%= comicDetail.release %>
+                      </li>
+                      <li>
+                        <span>Total Chapter:</span>
+                        <%= comicDetail.totalChapters %>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-lg-8">
+          <div class="anime-details-review">
+            <div>
+              <h5 class="fs-5 mb-5 theme-text-white font-black section-title">Chapter</h5>
+            </div>
+            <div class="chapter-list">
+              <% comicDetail.chapters.forEach(chapter => { %>
+                <% const chapterTitle = chapter.judul || ""; %>
+                <% const chapterNumber = chapterTitle.match(/chapter (\d+)/); %>
+                <% const displayTitle = chapterNumber ? `Chapter ${chapterNumber[1]}` : chapter.title || "Unknown Chapter"; %>
+                <a href="/comic/chapter/<%= chapter.slug %>" data-slug="<%= chapter.slug %>" class="chapter-item">
+                  <span class="chapter-title"><%= displayTitle %></span>
+                  <span class="chapter-time"><%= chapter.time %></span>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+          <div class="anime-details-form">
+            <div>
+              <h5 class="fs-5 mb-5 theme-text-white font-black section-title">Recomended</h5>
+            </div>
+            <div class="row">
+              <% recomend.forEach((recomended)=> { %>
+                  <div class="col-sm-6 col-md-4 col-lg-3 mb-4 col-6">
+                    <div class="card">
+                      <a href="/comic/<%= recomended.slug %>" class="card-img-container">
+                        <img src="<%= recomended.poster %>?w=1280&q=80" class="card-img-top" alt="...">
+                        <div class="<%= recomended.type === 'Unknown' ? 'manhua' : recomended.type.toLowerCase() %>">
+                          <%= recomended.type==='Unknown' ? 'Manhua' : recomended.type %>
+                        </div>
+                      </a>
+                      <div class="card-padding-top">
+                        <a href="/comic/<%= recomended.slug %>" class="card-title">
+                          <h5>
+                            <%= recomended.judul %>
+                          </h5>
+                        </a>
+                        <% if (recomended.chapters && recomended.chapters.length> 0) { %>
+                          <a href="/comic/chapter/<%= recomended.chapters[0].slug %>" class="card-chapter">
+                            <span>
+                              <%= recomended.chapters[0].chapter_title %>
+                            </span>
+                            <span>
+                              <%= recomended.chapters[0].release_date %>
+                            </span>
+                          </a>
+                          <% } %>
+                            <% if (recomended.chapters && recomended.chapters.length> 1) { %>
+                              <a href="/comic/chapter/<%= recomended.chapters[1].slug %>" class="card-chapter">
+                                <span>
+                                  <%= recomended.chapters[1].chapter_title %>
+                                </span>
+                                <span>
+                                  <%= recomended.chapters[1].release_date %>
+                                </span>
+                              </a>
+                              <% } %>
+                      </div>
+                    </div>
+                  </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="row">
+            <div class="col-12 col-lg-12 mt-5 mt-lg-0">
+              <div class="d-flex flex-column flex-sm-row justify-content-between">
+                <div>
+                  <h1 class="fs-5 mb-3 theme-text-white font-black section-title">Comments</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12">
+              <div class="row filter-gallery">
+                <div id="disqus_thread"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<%- include('partials/footer') %>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    const comicData = {
+      title: '<%= comicDetail.judul %>',
+      poster: '<%= comicDetail.poster %>',
+      slug: '<%= ep_slug %>',
+      type: '<%= item_type %>'
+    };
+
+    function getBookmarks() {
+      const bookmarks = document.cookie.split('; ').find(row => row.startsWith('bookmarks='));
+      return bookmarks ? JSON.parse(decodeURIComponent(bookmarks.split('=')[1])) : [];
+    }
+
+    function updateButtonText() {
+      const bookmarks = getBookmarks();
+      const alreadyBookmarked = bookmarks.some(b => b.slug === comicData.slug);
+
+      if (alreadyBookmarked) {
+        bookmarkBtn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
+        bookmarkBtn.classList.add('bookmarked');
+      } else {
+        bookmarkBtn.innerHTML = '<i class="bi bi-bookmark"></i>';
+        bookmarkBtn.classList.remove('bookmarked');
+      }
+    }
+
+    bookmarkBtn.addEventListener('click', () => {
+      const bookmarks = getBookmarks();
+      const alreadyBookmarked = bookmarks.some(b => b.slug === comicData.slug);
+
+      if (alreadyBookmarked) {
+        removeBookmark(comicData.slug);
+        bookmarkBtn.innerHTML = '<i class="bi bi-bookmark"></i>';
+        bookmarkBtn.classList.remove('bookmarked');
+      } else {
+        addBookmark(comicData);
+        bookmarkBtn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
+        bookmarkBtn.classList.add('bookmarked');
+      }
+    });
+
+    function addBookmark(comic) {
+      const bookmarks = getBookmarks();
+      bookmarks.push(comic);
+      document.cookie = `bookmarks=${encodeURIComponent(JSON.stringify(bookmarks))}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+    }
+
+    function removeBookmark(slug) {
+      let bookmarks = getBookmarks();
+      bookmarks = bookmarks.filter(b => b.slug !== slug);
+      document.cookie = `bookmarks=${encodeURIComponent(JSON.stringify(bookmarks))}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+    }
+
+    // Update button text and style on page load
+    updateButtonText();
+  });
+</script>

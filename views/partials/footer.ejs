@@ -1,0 +1,140 @@
+<% if (typeof showDisqus !== 'undefined' && showDisqus) { %>
+<script>
+    var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = window.location.pathname;
+        this.page.title = document.title;
+    };
+
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realmtaku.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<% } %>
+
+<div class="line-footer"></div>
+
+<footer class="footer footer-wrapper pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <img style="max-width: 240px;" src="/images/brand.png" class="img-fluid mb-4 mb-lg-0"
+                    alt="Brand light">
+            </div>
+        </div>
+    </div>
+    <div class="py-2 text-center copyright">
+        <div id="histats_counter" style="display: flex; justify-content: center; align-items: center;"></div>
+        <p class="mb-0 font-small">
+            &copy; 2024 <a href="#">RealmTaku</a>. Crafted with care by Clayza Aubert. All rights reserved.
+        </p>                
+    </div>
+    <a href="#wrapper" data-type="section-switch" class="scrollup"><i class="bi bi-chevron-double-up"></i></a>
+</footer>
+
+<script>
+    document.querySelector('.search-switch').addEventListener('click', function () {
+        document.querySelector('.search-model').style.display = 'flex';
+    });
+
+    document.querySelector('.search-close-switch').addEventListener('click', function () {
+        document.querySelector('.search-model').style.display = 'none';
+    });
+</script>
+
+<script>
+function setCookie(name, value) {
+  const maxAge = 60 * 60 * 24 * 365 * 100; // 100 tahun
+  document.cookie = name + "=" + (value || "") + "; max-age=" + maxAge + "; path=/";
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function markAsRead(slug) {
+  let readItems = getCookie('readItems');
+  if (!readItems) {
+    readItems = [];
+  } else {
+    readItems = JSON.parse(readItems);
+  }
+  if (!readItems.includes(slug)) {
+    readItems.push(slug);
+    setCookie('readItems', JSON.stringify(readItems));
+  }
+}
+
+function checkReadStatus() {
+  const readItems = JSON.parse(getCookie('readItems') || '[]');
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    const slug = item.getAttribute('data-slug');
+    if (readItems.includes(slug)) {
+      item.classList.add('read');
+    }
+  });
+}
+
+function markCurrentItemFromURL() {
+  const currentURL = window.location.pathname;
+  const match = currentURL.match(/\/comic\/chapter\/([^\/]+)/);
+  if (match) {
+    const currentSlug = match[1];
+    markAsRead(currentSlug);
+    checkReadStatus();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  checkReadStatus();
+  markCurrentItemFromURL();
+
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const slug = item.getAttribute('data-slug');
+      markAsRead(slug);
+      item.classList.add('read');
+    });
+  });
+
+  const nextButton = document.querySelector('.btn-next');
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      markCurrentItemFromURL();
+    });
+  }
+
+  const backButton = document.querySelector('.btn-back');
+  if (backButton) {
+    backButton.addEventListener('click', () => {
+      markCurrentItemFromURL();
+    });
+  }
+});
+</script>
+<!-- Taruh Script Histat Disini Jika ada  -->
+
+<!-- END Histat -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.slicknav.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/player.js"></script>
+<script src="/js/main.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6801129486503792"
+     crossorigin="anonymous"></script>
+</body>
+</html>

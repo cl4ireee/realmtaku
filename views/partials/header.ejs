@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link href="/css/main.css" rel="stylesheet">
+    <title>
+        <%= title %>
+    </title>
+    <meta name="description" content="<%= description %>">
+    <meta name="author" content="Clayza Aubert">
+    <meta name="engine" content="Archia 2">
+    <meta name="keywords content="RealmTaku, Baca Komik Online, Nonton Anime Gratis, Nonton Donghua Terbaru, Streaming
+        Anime HD, Website Anime Tanpa Iklan, Komik Online Gratis, Anime dan Manga Gratis, Platform Baca Komik, Situs
+        Nonton Anime, Anime Streaming Terbaru, Donghua Terbaik, Website Komik Berkualitas, Nonton Anime Sub Indo, Komik
+        Manga Online, Streaming Anime Tanpa Gangguan, Website Anime Terbaik, Koleksi Komik Terbaru, Anime HD Gratis">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#FF5733">
+    <meta name="copyright" content="RealmTaku">
+    <meta property="og:site_name" content="RealmTaku" />
+    <meta property="og:title" content="<%= title %>">
+    <meta property="og:description" content="<%= description%>">
+    <meta property="og:image" content="<%= thumb %>">
+    <meta property="og:url" content="https://realmtaku.uno<%= slug %>">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@RealmTaku">
+    <meta name="twitter:title" content="<%= title %>">
+    <meta name="twitter:description" content="<%= description %>">
+    <meta name="twitter:image" content="<%= thumb %>">
+</head>
+
+<body class="bg-color-dark">
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    <div id="wrapper"></div>
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-color-dark">
+        <div class="container">
+            <input type="checkbox" id="checkbox">
+            <label for="checkbox" class="toggle d-lg-none">
+                <div class="bars" id="bar1"></div>
+                <div class="bars" id="bar2"></div>
+                <div class="bars" id="bar3"></div>
+            </label>
+            <img src="/images/brand.png" alt="Logo" class="logo ms-3">
+            <ul class="menu-right d-flex mb-0 ms-auto d-lg-none"
+                style="margin-left: auto; margin-right: 0%; font-size: 20px;">
+                <li><a href="#" class="search-switch circle" data-bs-toggle="modal" data-bs-target="#searchModal"><i
+                            class="bi bi-search"></i></a></li>
+            </ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/list-comic">Comic</a></li>
+                            <li><a class="dropdown-item" href="/genres">Genres</a></li>
+                            <li><a class="dropdown-item" href="/bookmarks">Bookmark</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="https://saweria.com/ClayzaAubert">Donate</a>
+                    </li>
+                </ul>
+                <ul class="menu-right d-flex mb-0 ms-auto d-none d-lg-flex"
+                    style="margin-left: auto; margin-right: 0%; font-size: 20px;">
+                    <li><a href="#" class="search-switch circle" data-bs-toggle="modal" data-bs-target="#searchModal"><i
+                                class="bi bi-search"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="d-flex" action="/search" method="GET" role="search">
+                        <input class="form-control me-2" type="text" name="q" id="search-input" placeholder="Search here....." required>
+                        <button class="btn btn-outline-orange" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
